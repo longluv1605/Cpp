@@ -14,22 +14,27 @@ private:
     {
         if (t == "+")
         {
-            if (s == "*" || s == "/" || s == "-" || s == "+")
+            if (s == "*" || s == "/" || s == "-" || s == "+" || s == "^")
                 return true;
         }
         if (t == "-")
         {
-            if (s == "*" || s == "/" || s == "+" || s == "-")
+            if (s == "*" || s == "/" || s == "+" || s == "-" || s == "^")
                 return true;
         }
         if (t == "*")
         {
-            if (s == "*" || s == "/")
+            if (s == "*" || s == "/" || s == "^")
                 return true;
         }
         if (t == "/")
         {
-            if (s == "*" || s == "/")
+            if (s == "*" || s == "/" || s == "^")
+                return true;
+        }
+        if (t == "^")
+        {
+            if (s == "^")
                 return true;
         }
 
@@ -47,20 +52,22 @@ private:
             if ((input[i] >= '0' && input[i] <= '9'))
             {
                 strNum = "";
-                if (i == 1 && input[i - 1] == '-') {
+                if (i == 1 && input[i - 1] == '-')
+                {
                     strNum += input[i - 1];
                 }
-                else if (i > 1 && input[i - 1] == '-' &&  input[i - 2] == '(') {
+                else if (i > 1 && input[i - 1] == '-' && input[i - 2] == '(')
+                {
                     strNum += input[i - 1];
                 }
-                
+
                 while (input[i] >= '0' && input[i] <= '9')
                 {
                     strNum += input[i];
                     i++;
                 }
                 output.push(strNum);
-                
+
                 if (!(input[i] >= '0' && input[i] <= '9') && input[i] != ' ')
                     i--;
             }
@@ -87,8 +94,9 @@ private:
             // ở đỉnh key vào output và sau đó push t vào key.
             else
             {
-                if(input[i] == '-' && (i == 0 || input[i - 1] == '(')) continue;
-                
+                if (input[i] == '-' && (i == 0 || input[i - 1] == '('))
+                    continue;
+
                 strChar = "";
                 strChar += input[i];
 
@@ -114,21 +122,23 @@ public:
     {
         this->input = input;
     }
-    
+
     void printTT()
     {
         std::cout << input << std::endl;
     }
-    
+
     void printHT()
     {
         changeTTtoHT();
         while (!(output.empty()))
         {
-            if((output.front()).size() > 1 && (output.front())[0] == '-') {
+            if ((output.front()).size() > 1 && (output.front())[0] == '-')
+            {
                 std::cout << "(" << output.front() << ") ";
             }
-            else std::cout << output.front() << " ";
+            else
+                std::cout << output.front() << " ";
             output.pop();
         }
     }
@@ -137,7 +147,7 @@ public:
 int main()
 {
     ChuyenDoiBieuThuc *res = new ChuyenDoiBieuThuc();
-    res->setInput("-9*3+4*((7-5)+1)/2");
+    res->setInput("-9*3^2+4*((7-5)+1)/2");
     res->printHT();
 
     return 0;
