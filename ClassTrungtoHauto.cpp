@@ -147,7 +147,7 @@ public:
 int main()
 {
     ChuyenDoiBieuThuc *res = new ChuyenDoiBieuThuc();
-    res->setInput("-9*3^2+4*((7-5)+1)/2");
+    res->setInput("-9*3^(-2)+4*((7-5)+1)/2");
     res->printHT();
 
     return 0;
