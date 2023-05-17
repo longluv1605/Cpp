@@ -1,48 +1,48 @@
 #include <bits/stdc++.h>
 
-int n, M;
-int res = 0;
-bool changeI, changeJ; 
+int n;
 
-void getAns(int arr[][2], int i, int j, int P, int V) {
-    if (j < i) return;
-    if (changeI) {
-        P -= arr[i - 1][0];
-        V -= arr[i - 1][1];
-        // changeI = false;
-    }
-    if (changeJ) {
-        P -= arr[j + 1][0];
-        V -= arr[j + 1][1];
-        // changeJ = false;
-    }
+int findGreatest(int nums[], int l, int r) {
+    if (r < l) return -1;
     
-    if (P <= M && res < V) res = V; 
     
-    changeI = true; changeJ = false;
-    getAns(arr, i + 1, j, P, V);
+    int mid = (l + r) / 2;
+        if (mid == 0 || mid == n - 1) return -1;
+        if (nums[mid] > nums[mid - 1] && nums[mid] > nums[mid + 1]) return mid;
     
-    changeJ = true; changeI = false;
-    getAns(arr, i, j - 1, P, V);
+    int idx = -1;
+        if (findGreatest(nums,l, mid - 1) != -1) idx = findGreatest(nums,l, mid - 1);
+        if (findGreatest(nums, mid + 1, r) != -1) idx = findGreatest(nums, mid + 1, r);
+
+    return idx;
 }
 
+// find(0, 9): 7
+//     mid = 4 => not 
+//     idx = -1
+//     find(0, 3): 3
+//         mid = 1 => not
+//         idx = -1
+//         find(0, 0): -1
+//             mid = 0 => return
+//         find(2, 3): 3
+//             mid = 2 => not
+//             idx = -1
+//             find(2, 1): -1
+//             find(3, 3): 3 
+//             idx = 3 return
+//         idx = 3 return
+//     find(5, 9): 7
+//     mid = 7 return 
+//     idx = 7
+
 int main() {
-    std::cin >> n >> M;
-    int P = 0, V = 0;
+    std::cin >> n;
     
-    int arr[n][2];
-    for (int i = 0; i < n; i++) {
-        int p, v;
-        std::cin >> p >> v;
-        arr[i][0] = p;
-        arr[i][1] = v;
-        P += p;
-        V += v;
-    }
-    
-    changeJ = false; changeI = false;
-    getAns(arr, 0, n - 1, P, V);
-    
-    std::cout << res;
+    int nums[n];
+    for (auto &x : nums) std::cin >> x;
+
+    std::cout << findGreatest(nums, 0, n - 1);
+
     return 0;
 }
